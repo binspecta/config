@@ -1,0 +1,4 @@
+#!/bin/sh
+
+mv ~/.emacs.d ~/.emacs.d.back
+cp -r emacs.d ~/.emacs.d

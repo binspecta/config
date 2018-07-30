@@ -1,0 +1,8 @@
+
+git
+gradle
+python3
+python2
+zsh
+
+
