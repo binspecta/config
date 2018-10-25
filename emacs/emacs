@@ -6,3 +6,7 @@
 (global-set-key "\C-c\C-k" 'backward-kill-word)
 
 (setq eshell-password-prompt-regexp "[Pp]ast\\(word\\|wort\\|phrase\\).*:\\s *\\'") 
+
+(setq-default c-basic-offset 4
+tab-width 4
+indent-tabs-mode t)
