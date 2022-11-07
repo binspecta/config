@@ -11,5 +11,8 @@ cp tmux/tmux.shared.conf ~/.tmux.shared.conf
 cp tmux/tmux.conf.linux ~/.tmux.conf
 
 zsh/ohmyzsh.sh
+cp zsh/zshrc ~/.zshrc
+
+exec zsh
 
 
