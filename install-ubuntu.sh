@@ -11,8 +11,8 @@ cp emacs/.emacs ~/.emacs
 cp tmux/tmux.shared.conf ~/.tmux.shared.conf
 cp tmux/tmux.conf.linux ~/.tmux.conf
 
-cp zsh/zshrc ~/.zshrc
 zsh/ohmyzsh.sh
+cp zsh/zshrc ~/.zshrc
 
 exec zsh
 
