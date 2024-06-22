@@ -5,9 +5,10 @@ sudo apt install tightvncserver -y
 
 mypasswd="Clever47!!"
 
+mkdir -p /root/.vnc
 echo $mypasswd | vncpasswd -f > /root/.vnc/passwd
 
-cat <<EOF ~/.vnc/xstartup
+cat <<EOF > ~/.vnc/xstartup
 #!/bin/bash
 xrdb $HOME/.Xresources
 startxfce4 &
@@ -15,7 +16,7 @@ EOF
 
 chmod +x ~/.vnc/xstartup
 
-cat <<EOF /etc/systemd/system/vncserver@.service
+cat <<EOF > /etc/systemd/system/vncserver@.service
 [Unit]
 Description=Start TightVNC server at startup
 After=syslog.target network.target
