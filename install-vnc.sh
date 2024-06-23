@@ -2,11 +2,12 @@
 
 sudo apt install xfce4 xfce4-goodies -y
 sudo apt install tightvncserver -y
+sudo apt install -y net-tools
 
-mypasswd="Clever47!!"
+vncserver
+vncserver -kill :1
 
 mkdir -p /root/.vnc
-echo $mypasswd | vncpasswd -f > /root/.vnc/passwd
 
 cat <<EOF > ~/.vnc/xstartup
 #!/bin/bash
@@ -37,3 +38,20 @@ EOF
 sudo systemctl daemon-reload
 sudo systemctl enable vncserver@1.service
 sudo systemctl start vncserver@1
+
+# Installs the necessary dependencies for Google Chrome
+sudo apt install -y wget gnupg
+
+# Adds the Google repository key
+wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
+
+# Adds the Google Chrome repository
+echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" | sudo tee /etc/apt/sources.list.d/google-chrome.list
+
+# Updates the package list again
+sudo apt update
+
+# Installs Google Chrome
+sudo apt install -y google-chrome-stable
+
+
