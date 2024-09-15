@@ -55,3 +55,9 @@ sudo apt update
 sudo apt install -y google-chrome-stable
 
 
+cat <<EOF > /root/Desktop/chrome.sh
+google-chrome-stable --no-sandbox https://ramses.kr/ip
+EOF
+
+chmod +x /root/Desktop/chrome.sh
+
