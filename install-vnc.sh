@@ -1,7 +1,8 @@
 #!/bin/bash
 
 sudo apt update
-sudo apt install tightvncserver -y
+# sudo apt install tightvncserver -y
+sudo apt install tigervnc-standalone-server -y
 sudo apt install -y net-tools
 sudo apt install lxde -y
 
@@ -63,3 +64,4 @@ EOF
 
 chmod +x /root/Desktop/chrome.sh
 
+echo "vncserver :1 -geometry 1024x768 -depth 16 -dpi 96 -localhost no"
