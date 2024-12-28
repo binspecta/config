@@ -1,8 +1,10 @@
 #!/bin/bash
 
-sudo apt install xfce4 xfce4-goodies -y
+sudo apt update
 sudo apt install tightvncserver -y
 sudo apt install -y net-tools
+sudo apt install lxde
+
 
 vncserver
 vncserver -kill :1
@@ -12,7 +14,7 @@ mkdir -p /root/.vnc
 cat <<EOF > ~/.vnc/xstartup
 #!/bin/bash
 xrdb $HOME/.Xresources
-startxfce4 &
+startlxde &
 EOF
 
 chmod +x ~/.vnc/xstartup
@@ -28,7 +30,7 @@ User=root
 PAMName=login
 PIDFile=/root/.vnc/%H:%i.pid
 ExecStartPre=-/usr/bin/vncserver -kill :%i > /dev/null 2>&1
-ExecStart=/usr/bin/vncserver -depth 24 -geometry 1280x800 :%i
+ExecStart=/usr/bin/vncserver -geometry 1024x768 -depth 16 -dpi 96 -localhost no :%i
 ExecStop=/usr/bin/vncserver -kill :%i
 
 [Install]
