@@ -3,7 +3,7 @@
 sudo apt update
 sudo apt install tightvncserver -y
 sudo apt install -y net-tools
-sudo apt install lxde
+sudo apt install lxde -y
 
 
 vncserver
