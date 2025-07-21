@@ -4,7 +4,7 @@ sudo apt update
 sudo apt install -y emacs
 sudo apt install -y zsh
 sudo apt install -y tmux
-sudo apt install -y python3 python3-pip
+sudo apt install -y python3 python3-pip python3-venv
 
 cp emacs/.emacs ~/.emacs
 
