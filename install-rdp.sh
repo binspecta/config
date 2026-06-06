@@ -10,9 +10,22 @@
 # Define user and password variables for remote desktop
 # Don't use root
 
-USER="ramses"
+USER="${RDP_USER:-ramses}"
 
-PASSWORD="***REMOVED***"
+# Read the password securely at runtime so it is never stored in the
+# script or committed to git. Set RDP_PASSWORD in the environment to run
+# non-interactively (e.g. for automation).
+if [ -n "$RDP_PASSWORD" ]; then
+    PASSWORD="$RDP_PASSWORD"
+else
+    read -rsp "Enter password for user '$USER': " PASSWORD
+    echo
+fi
+
+if [ -z "$PASSWORD" ]; then
+    echo "Password cannot be empty. Aborting." >&2
+    exit 1
+fi
 
 # Update the package list
 sudo apt update
@@ -24,11 +37,11 @@ sudo apt install -y ubuntu-desktop
 sudo apt install -y xrdp
 
 # Adds the user USER with the password
-sudo useradd -m -s /bin/bash $USER
+sudo useradd -m -s /bin/bash "$USER"
 echo "$USER:$PASSWORD" | sudo chpasswd
 
 # Adds the user USER to the sudo group for administrative rights
-sudo usermod -aG sudo $USER
+sudo usermod -aG sudo "$USER"
 
 # Configures xrdp to use the GNOME desktop
 echo "gnome-session" > ~/.xsession
