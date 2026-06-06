@@ -55,11 +55,14 @@ sudo systemctl enable xrdp
 # Installs the necessary dependencies for Google Chrome
 sudo apt install -y wget gnupg
 
-# Adds the Google repository key
-wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
+# Adds the Google repository key to a dedicated keyring (apt-key is deprecated)
+sudo install -m 0755 -d /etc/apt/keyrings
+wget -qO- https://dl.google.com/linux/linux_signing_key.pub \
+    | sudo gpg --dearmor -o /etc/apt/keyrings/google-chrome.gpg
+sudo chmod a+r /etc/apt/keyrings/google-chrome.gpg
 
-# Adds the Google Chrome repository
-echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" | sudo tee /etc/apt/sources.list.d/google-chrome.list
+# Adds the Google Chrome repository (scoped to the key above, over https)
+echo "deb [arch=amd64 signed-by=/etc/apt/keyrings/google-chrome.gpg] https://dl.google.com/linux/chrome/deb/ stable main" | sudo tee /etc/apt/sources.list.d/google-chrome.list
 
 # Updates the package list again
 sudo apt update

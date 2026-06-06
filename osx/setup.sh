@@ -1,33 +1,34 @@
 #!/bin/bash
+set -uo pipefail
 
+# Resolve list.txt / cask_list.txt relative to this script, not the caller's cwd.
+cd "$(dirname "$0")"
 
-if [ ! -e /usr/local/bin/brew ]
-then
-    echo "No brew, Please install brew first"
-    /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+if ! command -v brew >/dev/null 2>&1; then
+    echo "No brew found — installing Homebrew"
+    # Download the official installer first, then run it, instead of piping a
+    # network stream straight into a shell. (The old ruby/master URL is dead.)
+    installer="$(mktemp)"
+    curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh -o "$installer"
+    /bin/bash "$installer"
+    rm -f "$installer"
 fi
 
 echo "Update brew"
-
 brew update
 
 echo "Install formulas"
-
-formulas=`cat list.txt`
-
-for formula in $formulas
-do
+while IFS= read -r formula; do
+    [ -z "$formula" ] && continue
+    case "$formula" in \#*) continue ;; esac
     echo "==> brew install $formula"
-    brew install $formula
-done
+    brew install "$formula" || echo "  ! failed: $formula"
+done < list.txt
 
-
-
-cask_formulas=`cat cask_list.txt`
-
-
-for formula in $cask_formulas
-do
-    echo "==> brew cask install $formula"
-    brew cask install $formula
-done
+echo "Install casks"
+while IFS= read -r formula; do
+    [ -z "$formula" ] && continue
+    case "$formula" in \#*) continue ;; esac
+    echo "==> brew install --cask $formula"
+    brew install --cask "$formula" || echo "  ! failed: $formula"
+done < cask_list.txt
