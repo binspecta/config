@@ -37,7 +37,7 @@ sudo apt install -y tigervnc-standalone-server net-tools lxde
 if ! id "$VNC_USER" >/dev/null 2>&1; then
     sudo useradd -m -s /bin/bash "$VNC_USER"
 fi
-VNC_HOME="$(eval echo "~$VNC_USER")"
+VNC_HOME="$(getent passwd "$VNC_USER" | cut -d: -f6)"
 
 # --- VNC password file (mode 0600, owned by the user) ----------------------
 
@@ -88,7 +88,7 @@ sudo install -m 0755 -d /etc/apt/keyrings
 wget -qO- https://dl.google.com/linux/linux_signing_key.pub \
     | sudo gpg --dearmor -o /etc/apt/keyrings/google-chrome.gpg
 sudo chmod a+r /etc/apt/keyrings/google-chrome.gpg
-echo "deb [arch=amd64 signed-by=/etc/apt/keyrings/google-chrome.gpg] http://dl.google.com/linux/chrome/deb/ stable main" \
+echo "deb [arch=amd64 signed-by=/etc/apt/keyrings/google-chrome.gpg] https://dl.google.com/linux/chrome/deb/ stable main" \
     | sudo tee /etc/apt/sources.list.d/google-chrome.list > /dev/null
 sudo apt update
 sudo apt install -y google-chrome-stable
