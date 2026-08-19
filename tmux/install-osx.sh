@@ -7,6 +7,8 @@ pip install powerline-status
 
 brew install reattach-to-user-namespace
 
+git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+
 cp tmux.shared.conf ~/.tmux.shared.conf
 cp tmux.conf.osx ~/.tmux.conf
 
